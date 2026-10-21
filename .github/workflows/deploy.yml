@@ -1,0 +1,39 @@
+name: Deploy to Apps Script
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # allows a manual run from the Actions tab
+
+# Never run two deployments at the same time.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install clasp
+        # Pin the same version you use locally (check with: clasp --version)
+        run: npm install -g @google/clasp@3.4.1
+
+      - name: Write clasp credentials from secret
+        run: echo "$CLASPRC_JSON" > "$HOME/.clasprc.json"
+        env:
+          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+
+      - name: Push code to Apps Script
+        run: clasp push --force
+
+      - name: Remove credentials
+        if: always()
+        run: rm -f "$HOME/.clasprc.json"
