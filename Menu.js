@@ -9,5 +9,10 @@ function onOpen() {
     .createMenu('Pacing Monitor')
     .addItem('Generate demo data', 'generateDemoData')
     .addItem('Run monitor', 'runMonitor')
+    .addSeparator()
+    .addItem('Send report now', 'sendReportNow')
+    .addSeparator()
+    .addItem('Schedule daily run', 'installDailyTrigger')
+    .addItem('Remove daily run', 'removeDailyTrigger')
     .addToUi();
 }
