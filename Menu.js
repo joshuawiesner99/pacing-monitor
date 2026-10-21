@@ -6,7 +6,7 @@
  */
 function onOpen() {
   SpreadsheetApp.getUi()
-    .createMenu('Pacing Monitor')
+    .createMenu('Pacing Monitor (deploy test)')
     .addItem('Generate demo data', 'generateDemoData')
     .addItem('Run monitor', 'runMonitor')
     .addSeparator()
